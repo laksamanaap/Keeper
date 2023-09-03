@@ -10,8 +10,8 @@ function App() {
 
   function addItem(inputText, inputHeader) {
     setItem((prevItems) => {
-      // console.log(prevItems);
-      return [...prevItems, { text: inputText, title: inputHeader }];
+      console.log(prevItems);
+      return [...prevItems, { title: inputHeader, text: inputText }];
     });
   }
 
