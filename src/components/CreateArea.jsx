@@ -1,6 +1,16 @@
 import React, { useState } from "react";
+import AddIcon from "@material-ui/icons/Add";
+import { Zoom } from "@material-ui/core";
 
 function CreateArea(props) {
+  const [isExpanded, setIsExpanded] = useState(false);
+
+  function handleExpanded() {
+    setIsExpanded((prevCondition) => {
+      return !prevCondition;
+    });
+  }
+
   const [note, setNote] = useState({
     titlea: "",
     contentb: ""
@@ -32,32 +42,39 @@ function CreateArea(props) {
       <form>
         <input
           name="titlea"
-          placeholder="Title"
+          placeholder={isExpanded ? "Title" : "Start type here"}
           onChange={handleChange}
+          onClick={handleExpanded}
           value={note.titlea}
         />
-        <textarea
-          name="contentb"
-          placeholder="Take a note..."
-          rows="3"
-          onChange={handleChange}
-          value={note.contentb}
-        />
-        <button
-          type="submit"
-          onClick={(e) => {
-            e.preventDefault();
-            props.onAdd(note.contentb, note.titlea);
-            setNote({
-              titlea: "",
-              contentb: ""
-            });
-            // console.log(note.title);
-            // console.log(note.content);
-          }}
-        >
-          Add
-        </button>
+        {isExpanded && (
+          <div className="">
+            <textarea
+              name="contentb"
+              placeholder="Take a note..."
+              rows={isExpanded ? 3 : 1}
+              onChange={handleChange}
+              value={note.contentb}
+            />
+            <Zoom in={true}>
+              <button
+                type="submit"
+                onClick={(e) => {
+                  e.preventDefault();
+                  props.onAdd(note.contentb, note.titlea);
+                  setNote({
+                    titlea: "",
+                    contentb: ""
+                  });
+                  // console.log(note.title);
+                  // console.log(note.content);
+                }}
+              >
+                <AddIcon />
+              </button>
+            </Zoom>
+          </div>
+        )}
       </form>
     </div>
   );
